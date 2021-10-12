@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body,
+html {
+  width: 100vw;
+  height: 100vh;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
