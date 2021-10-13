@@ -6,7 +6,7 @@
 -->
 <template>
   <div>
-    <h2>welcome !</h2>
+    <h2>xiaozhangtx,welcome !</h2>
   </div>
 </template>
 

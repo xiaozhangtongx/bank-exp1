@@ -1,16 +1,13 @@
 <!--
- * @Description: 存取款管理页面,管理员使用
+ * @Description: 储户存取款
  * @Version: 1.0
  * @Author: xiaozhangtx
- * @Date: 2021-10-13 15:45:05
+ * @Date: 2021-10-13 23:14:06
 -->
 <template>
   <a-card>
     <h2>存取款管理</h2>
     <a-form-model layout="inline">
-      <a-form-model-item>
-        <a-input placeholder="储户账号" />
-      </a-form-model-item>
       <a-form-model-item>
         <a-input placeholder="银行卡号" />
       </a-form-model-item>
@@ -21,13 +18,13 @@
       </a-form-model-item>
     </a-form-model>
 
-    <CardTable style="margin-top:20px" />
+    <UcardTable style="margin-top:20px" />
   </a-card>
 </template>
 
 
 <script>
-import CardTable from '@/components/cards/CardTable'
+import UcardTable from '@/components/cards/UcardTable'
 export default {
   name: 'Users',
   data() {
@@ -35,7 +32,7 @@ export default {
   },
   methods: {},
   components: {
-    CardTable,
+    UcardTable,
   },
 }
 </script>

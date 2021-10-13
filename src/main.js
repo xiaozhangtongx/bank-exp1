@@ -13,13 +13,14 @@ import 'ant-design-vue/dist/antd.css'
 import './assets/less/global.less'
 import 'element-ui/lib/theme-chalk/index.css'
 import Authorized from '@/components/Authorized'
-import { Table, TableColumn, Pagination } from 'element-ui'
+import { Table, TableColumn, Pagination, Switch } from 'element-ui'
 import AFTableColumn from 'af-table-column'
 
 Vue.use(AFTableColumn)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Switch)
 Vue.component('Authorized', Authorized)
 Vue.use(Antd)
 Vue.config.productionTip = false

@@ -52,9 +52,16 @@ const routes = [
       // 存取款管理
       {
         path: '/main/cards',
-        meta: { icon: 'bank', title: '存取款管理' },
+        meta: { icon: 'bank', title: '存取款管理', authority: ['admin'] },
         name: 'Cards',
         component: () => import('../views/main/cards/Cards.vue'),
+      },
+      // 用户存取款
+      {
+        path: '/main/money',
+        meta: { icon: 'pay-circle', title: '存取款', authority: ['user'] },
+        name: 'money',
+        component: () => import('../views/main/cards/Money.vue'),
       },
       // 账号管理
       {
