@@ -14,3 +14,6 @@ li {
 a {
   text-decoration: none;
 }
+.ant-layout-sider-zero-width-trigger {
+  background: #1990FF !important;
+}

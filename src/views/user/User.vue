@@ -1,54 +1,58 @@
 <!--
- * @Description: 用户登录背景页面
+ * @Description: 用户登录界面
  * @Version: 1.0
  * @Author: xiaozhangtx
  * @Date: 2021-10-11 16:26:51
 -->
 <template>
-  <a-carousel autoplay>
-    <div v-for="item in imgs" :key="item">
-      <img :src="item.img" alt="暂无图片">
+  <div class="user">
+    <Carousel />
+    <div class="loginform">
+      <h1>用户登录</h1>
+      <LoginForm />
     </div>
-  </a-carousel>
+  </div>
 </template>
+
 <script>
+import Carousel from '@/components/user/Carousel'
+import LoginForm from '@/components/user/LoginForm'
 export default {
+  name: '',
   data() {
-    return {
-      imgs: [
-        {
-          img: require('../../assets/images/1.png'),
-        },
-        {
-          img: require('../../assets/images/2.png'),
-        },
-        {
-          img: require('../../assets/images/3.png'),
-        },
-        {
-          img: require('../../assets/images/4.png'),
-        },
-      ],
-    }
+    return {}
+  },
+  methods: {},
+  components: {
+    Carousel,
+    LoginForm,
   },
 }
 </script>
-<style scoped >
-/* For demo */
-.ant-carousel >>> .slick-slide {
-  text-align: center;
-  height: 100vh;
-  line-height: 100vh;
-  background: #364d79;
-  overflow: hidden;
-}
 
-.ant-carousel >>> .slick-slide h3 {
-  color: #fff;
+<style scoped lang='less'>
+.user {
+  width: 100vw;
+  height: 100vh;
 }
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
+.loginform {
+  position: fixed;
+  top: 20vh;
+  right: 6vw;
+  display: block;
+  transition: all 0.1s;
+  width: 360px;
+  height: 320px;
+  background-color: #deeff8;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 5px 5px 5px #888888;
+  h1 {
+    text-align: center;
+    font-family: '楷体';
+    font-weight: 800;
+  }
 }
 </style>

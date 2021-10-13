@@ -7,8 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "af-table-column": "^1.0.3",
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.6",
+    "nprogress": "^0.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
