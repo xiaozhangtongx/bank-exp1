@@ -18,7 +18,9 @@
           <SiderMenu />
         </a-layout-sider>
         <a-layout-content style="margin:36px">
-          <router-view />
+          <transition name="transitionRouter">
+            <router-view></router-view>
+          </transition>
         </a-layout-content>
       </a-layout>
       <!-- footer部分 -->
@@ -63,5 +65,19 @@ export default {
 .ant-layout-header,
 .ant-layout-footer {
   background-color: #1990ff;
+}
+// 加载动画
+.transitionRouter-enter-active,
+.transitionRouter-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(50px, 0);
+  transform: translate(50px, 0);
+}
+
+.transitionRouter-enter,
+.transitionRouter-leave {
+  opacity: 0;
+  -webkit-transform: translate(-50px, 0);
+  transform: translate(-50px, 0);
 }
 </style>

@@ -9,6 +9,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Antd from 'ant-design-vue'
+import axios from 'axios'
 import 'ant-design-vue/dist/antd.css'
 import './assets/less/global.less'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -24,6 +25,8 @@ Vue.use(Switch)
 Vue.component('Authorized', Authorized)
 Vue.use(Antd)
 Vue.config.productionTip = false
+axios.defaults.baseURL = 'http://localhost:9001'
+Vue.prototype.$http = axios // $http这个是自定义的
 
 new Vue({
   router,

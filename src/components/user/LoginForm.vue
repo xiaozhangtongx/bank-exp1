@@ -10,15 +10,15 @@
     @submit="handleSubmit">
     <a-form-item>
       <a-input v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: '请输入你的账号/工号',min:6,max:11 }] },
+          'userId',
+          { rules: [{ required: true, message: '请输入你的账号/工号',min:6,max: 8}] },
         ]" placeholder="账号/工号">
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
       </a-input>
     </a-form-item>
     <a-form-item>
       <a-input-password v-decorator="[
-          'password',
+          'passWord',
           { rules: [{ required: true, message: '请输入你的六位密码!' ,min:6,max:6}] },
         ]" type="password" placeholder="密码">
         <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
@@ -44,7 +44,10 @@ export default {
   methods: {
     handleSubmit(e) {
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFields(async (err, values) => {
+        console.log(values.userId.length)
+        // let { data: res } = await this.$http.post('login', values)
+        // console.log(res)
         if (!err) {
           this.$router.push('/main/home')
           return this.$message.success('用户登录成功！')

@@ -1,5 +1,5 @@
 <!--
- * @Description: 
+ * @Description: app.vue
  * @Version: 1.0
  * @Author: xiaozhangtx
  * @Date: 2021-10-11 16:24:25

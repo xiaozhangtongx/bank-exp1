@@ -6,7 +6,7 @@
  */
 // 获取当前用户的角色
 export function getCurrentAutority() {
-  return ['user']
+  return ['admin']
 }
 
 // 检查当前用户的角色是否适配

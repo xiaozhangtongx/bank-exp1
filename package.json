@@ -9,6 +9,7 @@
   "dependencies": {
     "af-table-column": "^1.0.3",
     "ant-design-vue": "^1.7.8",
+    "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
     "nprogress": "^0.2.0",
