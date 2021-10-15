@@ -6,16 +6,37 @@
 -->
 <template>
   <div>
-    <!-- <h1>数据{{userdata}}</h1> -->
-    <el-table :data="userdata" stripe style="width: 100%" border fit>
+    <a-form-model layout="inline">
+      <a-form-model-item>
+        <a-button type="primary" style="background:#0DBC79;border:none" icon="plus">
+          添加
+        </a-button>
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-input v-model="infor.uid" placeholder="储户账号" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-input v-model="infor.username" placeholder="储户姓名" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-input v-model="infor.usex" placeholder="储户性别" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-button type="primary" icon="search" @click="getUserList">
+          查询
+        </a-button>
+      </a-form-model-item>
+    </a-form-model>
+
+    <el-table :data="userList" stripe style="width: 100%;margin:20px 0;" border fit>
       <af-table-column type="index" align="center" />
       <af-table-column prop="username" label="姓名" align="center" />
       <af-table-column prop="usex" label="性别" align="center" />
       <af-table-column prop="ubirthday" label="出生日期" align="center" />
       <af-table-column prop="uid" label="银行账号" align="center" />
-      <af-table-column label="登录密码" align="center">
+      <el-table-column label="登录密码" align="center">
         <template slot-scope="scope">{{ scope.row.upassword | formatupwd }}</template>
-      </af-table-column>
+      </el-table-column>
       <af-table-column prop="uidnum" label="身份证号" align="center" />
       <af-table-column prop="uphonenum" label="手机号码" align="center" />
       <af-table-column prop="operation" label="操作" align="center">
@@ -38,7 +59,7 @@
     </el-table>
     <!-- 分页 -->
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-      :current-page="pageNum" :page-size="pageSize" :page-sizes="[1, 2, 5, 100]"
+      :current-page="infor.pageNum" :page-size="infor.pageSize" :page-sizes="[1, 2, 5, 100]"
       layout="total, sizes, prev, pager, next, jumper" :total="total">
     </el-pagination>
   </div>
@@ -47,23 +68,36 @@
 
 <script>
 export default {
-  props: ['userdata', 'total', 'pageSize', 'pageNum', 'info'],
   data() {
     return {
-      // tableData: this.userdata,
+      infor: {
+        uid: '',
+        username: '',
+        usex: '',
+        pageNum: 1,
+        pageSize: 5,
+      },
+      userList: [],
+      total: 0,
     }
   },
   methods: {
+    async getUserList() {
+      const { data: res } = await this.$http.post('userlist', this.infor)
+      this.userList = res.data
+      console.log(res)
+      this.total = res.number
+    },
     // 监听pageSize改变的事件
     handleSizeChange(newSize) {
-      console.log(this.info)
-      // this.this.pageSize = newSize
-      // this.getUserList() // 数据发生改变重新申请数据
+      console.log(this.infor.pageSize)
+      this.infor.pageSize = newSize
+      this.getUserList() // 数据发生改变重新申请数据
     },
     // 监听pageNum改变的事件
     handleCurrentChange(newPage) {
-      // this.this.pageNum = newPage
-      // this.getUserList() // 数据发生改变重新申请数据
+      this.infor.pageNum = newPage
+      this.getUserList() // 数据发生改变重新申请数据
     },
   },
   filters: {
