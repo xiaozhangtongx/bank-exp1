@@ -6,15 +6,18 @@
 -->
 <template>
   <div>
-    <el-table :data="tableData" stripe style="width: 100%" border fit>
+    <!-- <h1>数据{{userdata}}</h1> -->
+    <el-table :data="userdata" stripe style="width: 100%" border fit>
       <af-table-column type="index" align="center" />
-      <af-table-column prop="name" label="姓名" align="center" />
-      <af-table-column prop="sex" label="性别" align="center" />
-      <af-table-column prop="birthday" label="出生日期" align="center" />
-      <af-table-column prop="password" label="银行账号" align="center" />
-      <af-table-column prop="password" label="登录密码" align="center" />
-      <af-table-column prop="idcardnum" label="身份证号" align="center" />
-      <af-table-column prop="phonenum" label="手机号码" align="center" />
+      <af-table-column prop="username" label="姓名" align="center" />
+      <af-table-column prop="usex" label="性别" align="center" />
+      <af-table-column prop="ubirthday" label="出生日期" align="center" />
+      <af-table-column prop="uid" label="银行账号" align="center" />
+      <af-table-column label="登录密码" align="center">
+        <template slot-scope="scope">{{ scope.row.upassword | formatupwd }}</template>
+      </af-table-column>
+      <af-table-column prop="uidnum" label="身份证号" align="center" />
+      <af-table-column prop="uphonenum" label="手机号码" align="center" />
       <af-table-column prop="operation" label="操作" align="center">
         <a-space>
           <a-tooltip>
@@ -34,8 +37,9 @@
       </af-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination :current-page="5" :page-sizes="[1, 2, 5, 100]" :page-size="5"
-      layout="total, sizes, prev, pager, next, jumper" :total="20" style="margin-top:20px">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+      :current-page="pageNum" :page-size="pageSize" :page-sizes="[1, 2, 5, 100]"
+      layout="total, sizes, prev, pager, next, jumper" :total="total">
     </el-pagination>
   </div>
 
@@ -43,30 +47,28 @@
 
 <script>
 export default {
-  created() {
-    this.getData()
-  },
+  props: ['userdata', 'total', 'pageSize', 'pageNum', 'info'],
   data() {
     return {
-      zhangsan: {
-        name: '张三',
-        sex: '男',
-        password: '123456',
-        idcardnum: '123456789123456789',
-        email: 'zhangsan@qq.com',
-        birthday: '2000-09-09',
-        phonenum: '12345678912',
-        money: 500,
-      },
-      tableData: [],
+      // tableData: this.userdata,
     }
   },
   methods: {
-    getData() {
-      for (let i = 0; i < 6; i++) {
-        this.zhangsan.password = this.zhangsan.password.replace(/^(\d{1})\d{4}(\d+)/, '$1****$2')
-        this.tableData.push(this.zhangsan)
-      }
+    // 监听pageSize改变的事件
+    handleSizeChange(newSize) {
+      console.log(this.info)
+      // this.this.pageSize = newSize
+      // this.getUserList() // 数据发生改变重新申请数据
+    },
+    // 监听pageNum改变的事件
+    handleCurrentChange(newPage) {
+      // this.this.pageNum = newPage
+      // this.getUserList() // 数据发生改变重新申请数据
+    },
+  },
+  filters: {
+    formatupwd(arg) {
+      return arg.replace(arg, '******')
     },
   },
 }

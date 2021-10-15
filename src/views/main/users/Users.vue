@@ -29,7 +29,7 @@
       </a-form-model-item>
     </a-form-model>
 
-    <UserTable style="margin-top:20px" />
+    <UserTable :info="queryInfo" :userdata="userList" :total="total" style="margin-top:20px" />
   </a-card>
 </template>
 
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       userList: [],
+      totalNum: 0,
       total: 0,
       // 查询信息
       queryInfo: {
@@ -57,9 +58,10 @@ export default {
     async getUserList() {
       const { data: res } = await this.$http.post('userlist', this.queryInfo)
       this.userList = res.data
-      console.log(this.userList)
-      this.total = res.number
       console.log(res)
+      // console.log(res)
+      // console.log(this.userList)
+      this.total = res.number
     },
   },
   components: {
