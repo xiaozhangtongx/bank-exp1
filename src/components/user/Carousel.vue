@@ -1,10 +1,4 @@
 <!--
- * @Description: 
- * @Version: 1.0
- * @Author: xiaozhangtx
- * @Date: 2021-10-12 22:54:01
--->
-<!--
  * @Description: 用户登录背景页面
  * @Version: 1.0
  * @Author: xiaozhangtx

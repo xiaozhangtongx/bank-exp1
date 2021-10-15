@@ -10,7 +10,7 @@
     @submit="handleSubmit">
     <a-form-item>
       <a-input v-decorator="[
-          'userId',
+          'uid',
           { rules: [{ required: true, message: '请输入你的账号/工号',min:6,max: 8}] },
         ]" placeholder="账号/工号">
         <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
@@ -18,7 +18,7 @@
     </a-form-item>
     <a-form-item>
       <a-input-password v-decorator="[
-          'passWord',
+          'upassword',
           { rules: [{ required: true, message: '请输入你的六位密码!' ,min:6,max:6}] },
         ]" type="password" placeholder="密码">
         <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
@@ -45,12 +45,18 @@ export default {
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
-        console.log(values.userId.length)
-        // let { data: res } = await this.$http.post('login', values)
-        // console.log(res)
+        // console.log(values.userId.length)
         if (!err) {
-          this.$router.push('/main/home')
-          return this.$message.success('用户登录成功！')
+          let { data: res } = await this.$http.post('login', values)
+          // console.log(res)
+          if (res.flag == 'ok') {
+            this.$store.dispatch('saveUserInfo', res.data)
+            window.sessionStorage.setItem('store', JSON.stringify(this.$store.state))
+            this.$router.replace('/main/home') // 页面跳转
+            return this.$message.success('登录成功')
+          } else {
+            return this.$message.error('登录失败，请检查你输入的账号或密码是否正确！')
+          }
         }
       })
     },

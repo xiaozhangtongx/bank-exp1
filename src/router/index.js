@@ -8,8 +8,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import findLast from 'lodash/findLast'
 import BasicLayout from '@/layout/BasicLayout'
 import NotFound from '../views/error/404.vue'
+import { notification } from 'ant-design-vue'
 import { check, isLogin } from '../utils/auth'
 
 Vue.use(VueRouter)
@@ -105,6 +107,13 @@ const routes = [
     hideInMenu: true,
     component: NotFound,
   },
+  // 401页面
+  {
+    path: '/401',
+    name: '401',
+    hideInMenu: true,
+    component: () => import('../views/error/401.vue'),
+  },
 ]
 
 const router = new VueRouter({
@@ -116,7 +125,36 @@ router.beforeEach((to, from, next) => {
   if (to.path != from.path) {
     NProgress.start()
   }
-  NProgress.done()
+  if (to.path == '/login') return next()
+  const store = window.sessionStorage.getItem('store')
+  var storeobj = JSON.parse(store)
+  if (storeobj.user == null) {
+    notification.error({
+      message: '401',
+      description: '你没有权限访问，请登录后再访问。',
+    })
+    next('/login')
+  }
+  const record = findLast(to.matched, (record) => record.meta.authority)
+  if (record && !check(record.meta.authority)) {
+    if (!isLogin() && to.path !== '/login') {
+      next({
+        path: '/login',
+      })
+    } else if (to.path !== '/401') {
+      notification.error({
+        message: '401',
+        description: '你没有权限访问，请联系管理员咨询。',
+      })
+      next({
+        path: '/401',
+      })
+    }
+    NProgress.done()
+  }
   next()
+})
+router.afterEach(() => {
+  NProgress.done()
 })
 export default router

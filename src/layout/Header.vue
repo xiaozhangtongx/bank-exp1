@@ -23,7 +23,7 @@
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
-              <router-link to="/login">退出</router-link>
+              <li @click="logOut">退出</li>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -41,6 +41,15 @@ export default {
     return {
       newDate: new Date(),
     }
+  },
+  methods: {
+    // 退出登陆
+    logOut() {
+      window.sessionStorage.clear()
+      this.$router.replace('/login')
+      this.$store.dispatch('saveUserInfo', null)
+      console.log(window.sessionStorage.getItem('store'))
+    },
   },
   // 挂载时间
   mounted() {

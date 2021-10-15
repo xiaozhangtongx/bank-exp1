@@ -6,17 +6,27 @@
 -->
 <template>
   <div>
-    <h2>xiaozhangtx,welcome !</h2>
+    <h2>{{user}},welcome !</h2>
   </div>
 </template>
 
 <script>
 export default {
+  created() {
+    this.getUser()
+    // console.log(this.$store.state.user)
+  },
   name: '',
   data() {
-    return {}
+    return {
+      user: '',
+    }
   },
-  methods: {},
+  methods: {
+    getUser() {
+      this.user = this.$store.state.user.username
+    },
+  },
 }
 </script>
 

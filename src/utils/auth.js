@@ -6,7 +6,13 @@
  */
 // 获取当前用户的角色
 export function getCurrentAutority() {
-  return ['admin']
+  let auth = []
+  const store = window.sessionStorage.getItem('store')
+  // 把字符串转换成json格式
+  var storeobj = JSON.parse(store)
+  // console.log(storeobj.user.role)
+  auth.push(storeobj.user.role)
+  return auth
 }
 
 // 检查当前用户的角色是否适配

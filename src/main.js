@@ -25,7 +25,7 @@ Vue.use(Switch)
 Vue.component('Authorized', Authorized)
 Vue.use(Antd)
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'http://localhost:9001'
+axios.defaults.baseURL = 'http://localhost:9002'
 Vue.prototype.$http = axios // $http这个是自定义的
 
 new Vue({
