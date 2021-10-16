@@ -14,7 +14,18 @@ import 'ant-design-vue/dist/antd.css'
 import './assets/less/global.less'
 import 'element-ui/lib/theme-chalk/index.css'
 import Authorized from '@/components/Authorized'
-import { Table, TableColumn, Pagination, Switch } from 'element-ui'
+import {
+  Table,
+  TableColumn,
+  Pagination,
+  Switch,
+  Dialog,
+  Input,
+  Form,
+  FormItem,
+  Radio,
+  DatePicker,
+} from 'element-ui'
 import AFTableColumn from 'af-table-column'
 
 Vue.use(AFTableColumn)
@@ -22,6 +33,12 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Switch)
+Vue.use(Dialog)
+Vue.use(Input)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Radio)
+Vue.use(DatePicker)
 Vue.component('Authorized', Authorized)
 Vue.use(Antd)
 Vue.config.productionTip = false

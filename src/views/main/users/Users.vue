@@ -27,4 +27,11 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.ant-card {
+  border-radius: 7px;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+}
+.ant-card-bordered {
+  border: none;
+}
 </style>
