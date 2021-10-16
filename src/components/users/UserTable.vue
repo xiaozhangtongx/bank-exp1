@@ -21,7 +21,7 @@
         <a-input v-model="infor.username" placeholder="储户姓名" />
       </a-form-model-item>
       <a-form-model-item>
-        <a-input v-model="infor.usex" placeholder="储户性别" />
+        <a-input v-model="infor.uidnum" placeholder="储户身份证号码" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" icon="search" @click="getUserList">
@@ -43,19 +43,23 @@
       <el-table-column prop="operation" label="操作" align="center">
         <template slot-scope="scope">
           <a-space>
-            <a-tooltip>
+            <a-tooltip placement="left">
               <template slot="title">
                 信息修改
               </template>
-              <a-button type="primary" style="background:#009688; border:none" size="small"
-                icon="edit" @click="showEditDialog(scope.row.uid)">
-              </a-button>
+              <a-popconfirm title="你确定修改该用户的信息吗?" ok-text="确定" cancel-text="取消"
+                @confirm="showEditDialog(scope.row.uid)" @cancel="cancel">
+                <a-button type="primary" style="background:#009688; border:none" size="small"
+                  icon="edit">
+                </a-button>
+              </a-popconfirm>
             </a-tooltip>
             <a-tooltip>
               <template slot="title">
                 用户删除
               </template>
-              <a-button type="danger" size='small' icon="delete"></a-button>
+              <a-button type="danger" size='small' icon="delete"
+                @click="confirmDelet(scope.row.uid)"></a-button>
             </a-tooltip>
           </a-space>
         </template>
@@ -68,6 +72,7 @@
     </el-pagination>
     <!-- 添加用户对话框 -->
     <AddUserForm ref="adduser" />
+
     <!-- 修改用户对话框 -->
     <el-dialog title="修改用户信息" :visible.sync="editDialogVisible" width="360px"
       @colse="editDialogClosed">
@@ -82,13 +87,13 @@
           <el-input v-model="editForm.uphonenum"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="upassword">
           <el-input type="password" v-model="editForm.upassword"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <a-button @click="editDialogVisible = false">取 消</a-button>
-        <a-button type="primary" style="margin-left:20px">确 定</a-button>
+        <a-button type="primary" @click="editUserInfo" style="margin-left:20px">确 定</a-button>
       </span>
     </el-dialog>
   </div>
@@ -102,7 +107,7 @@ export default {
       infor: {
         uid: '',
         username: '',
-        usex: '',
+        uidnum: '',
         pageNum: 1,
         pageSize: 5,
       },
@@ -114,20 +119,22 @@ export default {
       editForm: {},
       // 修改用户表单验证规则
       editFormRules: {
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 8, message: '长度在 6 到 8 个字符', trigger: 'blur' },
+        upassword: [
+          { message: '请输入新的密码', trigger: 'blur' },
+          { len: 6, message: '请输入长度为6位的新密码', trigger: 'blur' },
         ],
-        email: [
-          { required: true, message: '请输入邮箱', trigger: 'blur' },
-          { min: 5, max: 15, message: '请输入正确邮箱地址', trigger: 'blur' },
+        uphonenum: [
+          { message: '请输入新的手机号码', trigger: 'blur' },
+          { len: 11, message: '请输入长度为11位的手机号码', trigger: 'blur' },
         ],
       },
     }
   },
+
   components: {
     AddUserForm,
   },
+
   methods: {
     // 获得用户列表
     async getUserList() {
@@ -136,21 +143,25 @@ export default {
       console.log(res)
       this.total = res.number
     },
+
     // 监听pageSize改变的事件
     handleSizeChange(newSize) {
       console.log(this.infor.pageSize)
       this.infor.pageSize = newSize
       this.getUserList() // 数据发生改变重新申请数据
     },
+
     // 监听pageNum改变的事件
     handleCurrentChange(newPage) {
       this.infor.pageNum = newPage
       this.getUserList() // 数据发生改变重新申请数据
     },
+
     // 展示添加用户对话框
     showAddUserform() {
       this.$refs.adduser.showModal()
     },
+
     // 展示修改框
     async showEditDialog(uid) {
       console.log(uid)
@@ -159,12 +170,61 @@ export default {
       this.editForm = res
       this.editDialogVisible = true
     },
+
     // 关闭窗口
     editDialogClosed() {
-      // this.$refs.editFormRef.resetFields()
+      this.$refs.editFormRef.resetFields()
+    },
+
+    // 确认修改
+    editUserInfo() {
+      this.$refs.editFormRef.validate(async (valid) => {
+        console.log(valid)
+        if (!valid) return
+        // 发起请求
+        const { data: res } = await this.$http.put('edituser', this.editForm)
+        console.log(res)
+        if (res != 'success') return this.$message.error('操作失败！！！')
+        this.$message.success('操作成功！！！')
+        //隐藏
+        this.editDialogVisible = false
+        this.getUserList()
+      })
+    },
+
+    // 确定是否删除用户
+    confirmDelet(uid) {
+      this.$confirm({
+        title: '此操作将永久删除该用户, 是否继续?',
+        okText: '是',
+        cancelText: '否',
+        icon: 'exclamation-circle',
+        onOk: () => {
+          this.deleteUser(uid)
+        },
+        onCancel: () => {
+          this.$message.warn('你取消了删除操作')
+        },
+      })
+    },
+
+    // 删除用户操作
+    async deleteUser(uid) {
+      const { data: res } = await this.$http.delete('deleteuser?uid=' + uid)
+      if (res != 'success') {
+        return this.$message.error('操作失败！！！')
+      }
+      this.$message.success('操作成功！！！')
+      this.getUserList()
+    },
+
+    // 取消操作
+    cancel() {
+      return this.$message.success('你取消了该操作')
     },
   },
-  // 内容过滤
+
+  // 过滤器
   filters: {
     formatupwd(arg) {
       return arg.replace(arg, '******')

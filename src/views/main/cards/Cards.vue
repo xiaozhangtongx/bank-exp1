@@ -7,21 +7,7 @@
 <template>
   <a-card>
     <h2>存取款管理</h2>
-    <a-form-model layout="inline">
-      <a-form-model-item>
-        <a-input placeholder="储户账号" />
-      </a-form-model-item>
-      <a-form-model-item>
-        <a-input placeholder="银行卡号" />
-      </a-form-model-item>
-      <a-form-model-item>
-        <a-button type="primary" icon="search">
-          查询
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-
-    <CardTable style="margin-top:20px" />
+    <CardTable />
   </a-card>
 </template>
 

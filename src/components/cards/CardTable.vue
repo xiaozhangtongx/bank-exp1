@@ -7,38 +7,44 @@
 
 <template>
   <div>
+    <a-form-model layout="inline">
+      <a-form-model-item>
+        <a-input v-model="infor.uid" placeholder="储户账号" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-input v-model="infor.cid" placeholder="银行卡号" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-button v-model="infor.uid" type="primary" icon="search" @click="getCarList">
+          查询
+        </a-button>
+      </a-form-model-item>
+    </a-form-model>
     <!-- 银行卡表单 -->
-    <el-table :data="tableData" stripe style="width: 100%" border fit>
+    <el-table :data="cardList" stripe style="width: 100%;margin:20px 0;" border fit>
       <el-table-column type="index" align="center" />
-      <el-table-column prop="id" label="银行卡卡号" align="center" />
-      <el-table-column prop="password" label="密码" align="center" />
-      <el-table-column prop="money" label="余额" align="center" />
-      <el-table-column prop="state" label="状态" align="center">
-        <template slot-scope="scope">
-          <el-switch v-model="scope.row.state">
-          </el-switch>
-        </template>
+      <el-table-column prop="uid" label="银行账户" align="center" />
+      <el-table-column prop="cid" label="银行卡卡号" align="center" />
+      <el-table-column prop="username" label="用户姓名" align="center">张三</el-table-column>
+      <el-table-column label="密码" align="center">
+        <template slot-scope="scope">{{ scope.row.cpassword | formatupwd }}</template>
       </el-table-column>
+      <el-table-column prop="money" label="余额" align="center" />
       <el-table-column prop="operation" label="操作" align="center">
         <a-space>
-          <a-button type="danger" style="background:#009688; border:none" size="small">
+          <a-button type="danger" size="small">
             存款
           </a-button>
-          <a-button type="primary" style="background:#888; border:none" size="small">
+          <a-button type="primary" size="small">
             取款
           </a-button>
-          <a-tooltip>
-            <template slot="title">
-              修改密码
-            </template>
-            <a-button type="danger" size="small" icon="key" />
-          </a-tooltip>
         </a-space>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination :current-page="5" :page-sizes="[1, 2, 5, 100]" :page-size="5"
-      layout="total, sizes, prev, pager, next, jumper" :total="20" style="margin-top:20px">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+      :current-page="infor.cpageNum" :page-size="infor.cpageSize" :page-sizes="[1, 2, 5, 10]"
+      layout="total, sizes, prev, pager, next, jumper" :total="total" style="margin-top:20px">
     </el-pagination>
   </div>
 
@@ -46,26 +52,45 @@
 
 <script>
 export default {
-  created() {
-    this.getData()
-  },
   data() {
     return {
-      card: {
-        id: 123456789,
-        password: '123456',
-        money: 500,
-        state: 'ture',
+      infor: {
+        cid: '',
+        uid: '',
+        cpageNum: 1,
+        cpageSize: 5,
       },
-      tableData: [],
+      cardList: [],
+      total: 0,
     }
   },
   methods: {
-    getData() {
-      for (let i = 0; i < 6; i++) {
-        this.card.password = this.card.password.replace(this.card.password, '******')
-        this.tableData.push(this.card)
-      }
+    // 获得用户列表
+    async getCarList() {
+      const { data: res } = await this.$http.post('cardlist', this.infor)
+      this.cardList = res.data
+      console.log(res)
+      this.total = res.number
+    },
+
+    // 监听pageSize改变的事件
+    handleSizeChange(newSize) {
+      console.log(this.infor.cpageSize)
+      this.infor.cpageSize = newSize
+      this.getCarList() // 数据发生改变重新申请数据
+    },
+
+    // 监听pageNum改变的事件
+    handleCurrentChange(newPage) {
+      this.infor.cpageNum = newPage
+      this.getCarList() // 数据发生改变重新申请数据
+    },
+  },
+
+  // 过滤器
+  filters: {
+    formatupwd(arg) {
+      return (arg + '').replace(arg + '', '******')
     },
   },
 }
