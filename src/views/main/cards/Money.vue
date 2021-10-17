@@ -7,18 +7,9 @@
 <template>
   <a-card>
     <h2>存取款管理</h2>
-    <a-form-model layout="inline">
-      <a-form-model-item>
-        <a-input placeholder="银行卡号" />
-      </a-form-model-item>
-      <a-form-model-item>
-        <a-button type="primary" icon="search">
-          查询
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-
-    <UcardTable style="margin-top:20px" />
+    <section class="card">
+      <UcardTable v-for="item in list" :key="item.id" style="margin-top:20px" />
+    </section>
   </a-card>
 </template>
 
@@ -28,7 +19,22 @@ import UcardTable from '@/components/cards/UcardTable'
 export default {
   name: 'Users',
   data() {
-    return {}
+    return {
+      list: [
+        {
+          id: 1,
+        },
+        {
+          id: 2,
+        },
+        {
+          id: 3,
+        },
+        {
+          id: 4,
+        },
+      ],
+    }
   },
   methods: {},
   components: {
@@ -38,4 +44,9 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.card {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+}
 </style>

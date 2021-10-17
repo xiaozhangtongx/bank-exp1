@@ -34,10 +34,11 @@
         <template slot-scope="scope">
           <a-space>
             <a-button type="danger" size="small"
-              @click="showConfirmPwd(scope.row.cid,scope.row.cpassword,scope.row.money)">
+              @click="showConfirmPwd(scope.row.cid,scope.row.cpassword,scope.row.money,oporation.saveMoneys)">
               存款
             </a-button>
-            <a-button type="primary" size="small">
+            <a-button type="primary" size="small"
+              @click="showConfirmPwd(scope.row.cid,scope.row.cpassword,scope.row.money,oporation.getMoneys)">
               取款
             </a-button>
           </a-space>
@@ -53,12 +54,16 @@
     <ConfirmPwd ref="confirPwd" />
     <!-- 存款表单 -->
     <SaveMoney ref="saveMoney" />
+    <!-- 取款表单 -->
+    <GetMoney ref="getMoney" />
+
   </div>
 </template>
 
 <script>
 import ConfirmPwd from '@/components/cards/ConfirmPwd'
 import SaveMoney from '@/components/cards/SaveMoney'
+import GetMoney from '@/components/cards/GetMoney'
 export default {
   data() {
     return {
@@ -67,6 +72,10 @@ export default {
         uid: '',
         cpageNum: 1,
         cpageSize: 5,
+      },
+      oporation: {
+        saveMoneys: 'savemoneys',
+        getMoneys: 'getmoneys',
       },
       cardList: [],
       total: 0,
@@ -77,6 +86,7 @@ export default {
   components: {
     ConfirmPwd,
     SaveMoney,
+    GetMoney,
   },
   methods: {
     // 获得用户列表
@@ -101,10 +111,10 @@ export default {
     },
 
     // 打开输入密码的窗口
-    showConfirmPwd(cid, cpassword, money) {
+    showConfirmPwd(cid, cpassword, money, oporation) {
       this.money = money
       this.cid = cid
-      this.$refs.confirPwd.showConfirmPwdDia(cpassword)
+      this.$refs.confirPwd.showConfirmPwdDia(cpassword, oporation)
     },
 
     // 打开存款表单
@@ -112,7 +122,10 @@ export default {
       this.$refs.saveMoney.showsaveMoneyDia(this.cid, this.money)
     },
 
-    //
+    // 打开取款表单
+    showgetMoney() {
+      this.$refs.getMoney.showgetMoneyDia(this.cid, this.money)
+    },
   },
 
   // 过滤器

@@ -34,6 +34,7 @@ export default {
         checkPwd: '',
       },
       opassword: '',
+      oporation: '', // 操作
       checkPwdDialogVisible: false,
       // 确认密码表单验证规则
       rules: {
@@ -52,9 +53,10 @@ export default {
       this.$refs.checkPwdFormRef.resetFields() // 重置表单项
     },
     // 打开输入密码的窗口
-    showConfirmPwdDia(password) {
+    showConfirmPwdDia(password, oporation) {
       this.opassword = password
-      // console.log('cid' + cid, 'password' + password)
+      this.oporation = oporation
+      console.log(this.oporation)
       this.checkPwdDialogVisible = true
     },
     // 确认输入密码
@@ -66,7 +68,11 @@ export default {
           this.$message.success('密码输入正确！！！')
           this.$refs.checkPwdFormRef.resetFields() // 重置表单项
           this.checkPwdDialogVisible = false
-          this.$parent.showsaveMoney()
+          if (this.oporation == 'savemoneys') {
+            this.$parent.showsaveMoney()
+          } else {
+            this.$parent.showgetMoney()
+          }
         } else {
           this.$message.error('密码错误，请稍后再试！！！')
           this.$refs.checkPwdFormRef.resetFields() // 重置表单项

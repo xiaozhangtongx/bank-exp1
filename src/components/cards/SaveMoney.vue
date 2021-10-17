@@ -70,7 +70,7 @@ export default {
       this.savemoney.cid = cid
       this.saveMoneyDialogVisible = true
     },
-    // 存钱
+    // 存款
     saveMoneys() {
       this.$refs.saveMoneyRef.validate(async (valid) => {
         console.log(valid)
