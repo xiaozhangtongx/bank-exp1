@@ -184,8 +184,8 @@ export default {
         // 发起请求
         const { data: res } = await this.$http.put('edituser', this.editForm)
         console.log(res)
-        if (res != 'success') return this.$message.error('操作失败！！！')
-        this.$message.success('操作成功！！！')
+        if (res != 'success') return this.$message.error('用户修改失败，请再尝试一次！')
+        this.$message.success('用户修改成功！！！')
         //隐藏
         this.editDialogVisible = false
         this.getUserList()

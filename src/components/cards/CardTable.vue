@@ -25,20 +25,23 @@
       <el-table-column type="index" align="center" />
       <el-table-column prop="uid" label="银行账户" align="center" />
       <el-table-column prop="cid" label="银行卡卡号" align="center" />
-      <el-table-column prop="username" label="用户姓名" align="center">张三</el-table-column>
+      <el-table-column prop="username" label="用户姓名" align="center" />
       <el-table-column label="密码" align="center">
         <template slot-scope="scope">{{ scope.row.cpassword | formatupwd }}</template>
       </el-table-column>
       <el-table-column prop="money" label="余额" align="center" />
       <el-table-column prop="operation" label="操作" align="center">
-        <a-space>
-          <a-button type="danger" size="small">
-            存款
-          </a-button>
-          <a-button type="primary" size="small">
-            取款
-          </a-button>
-        </a-space>
+        <template slot-scope="scope">
+          <a-space>
+            <a-button type="danger" size="small"
+              @click="showConfirmPwd(scope.row.cid,scope.row.cpassword,scope.row.money)">
+              存款
+            </a-button>
+            <a-button type="primary" size="small">
+              取款
+            </a-button>
+          </a-space>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -46,11 +49,16 @@
       :current-page="infor.cpageNum" :page-size="infor.cpageSize" :page-sizes="[1, 2, 5, 10]"
       layout="total, sizes, prev, pager, next, jumper" :total="total" style="margin-top:20px">
     </el-pagination>
+    <!-- 确认密码对话框 -->
+    <ConfirmPwd ref="confirPwd" />
+    <!-- 存款表单 -->
+    <SaveMoney ref="saveMoney" />
   </div>
-
 </template>
 
 <script>
+import ConfirmPwd from '@/components/cards/ConfirmPwd'
+import SaveMoney from '@/components/cards/SaveMoney'
 export default {
   data() {
     return {
@@ -62,7 +70,13 @@ export default {
       },
       cardList: [],
       total: 0,
+      money: 0, // 当前卡的余额
+      cid: 0, // 当前卡的账号
     }
+  },
+  components: {
+    ConfirmPwd,
+    SaveMoney,
   },
   methods: {
     // 获得用户列表
@@ -85,6 +99,20 @@ export default {
       this.infor.cpageNum = newPage
       this.getCarList() // 数据发生改变重新申请数据
     },
+
+    // 打开输入密码的窗口
+    showConfirmPwd(cid, cpassword, money) {
+      this.money = money
+      this.cid = cid
+      this.$refs.confirPwd.showConfirmPwdDia(cpassword)
+    },
+
+    // 打开存款表单
+    showsaveMoney() {
+      this.$refs.saveMoney.showsaveMoneyDia(this.cid, this.money)
+    },
+
+    //
   },
 
   // 过滤器
