@@ -134,13 +134,22 @@ export default {
     AddUserForm,
   },
 
+  created() {
+    this.getUserList()
+  },
+
   methods: {
     // 获得用户列表
     async getUserList() {
       const { data: res } = await this.$http.post('userlist', this.infor)
-      this.userList = res.data
-      console.log(res)
-      this.total = res.number
+      if (res.number == 0) {
+        return this.$message.error('该用户不存在，请检查你的输入是否正确！')
+      } else {
+        this.userList = res.data
+        // console.log(res)
+        this.total = res.number
+        this.$message.success('获取用户列表成功！')
+      }
     },
 
     // 监听pageSize改变的事件

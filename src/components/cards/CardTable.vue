@@ -7,11 +7,11 @@
 
 <template>
   <div>
-    <a-form-model layout="inline">
-      <a-form-model-item>
+    <a-form-model layout="inline" :rules="rules" :model="infor">
+      <a-form-model-item prop="uid">
         <a-input v-model="infor.uid" placeholder="储户账号" />
       </a-form-model-item>
-      <a-form-model-item>
+      <a-form-model-item prop="cid">
         <a-input v-model="infor.cid" placeholder="银行卡号" />
       </a-form-model-item>
       <a-form-model-item>
@@ -69,12 +69,25 @@ import GetMoney from '@/components/cards/GetMoney'
 import ChangePwd from '@/components/cards/ChangePwd'
 export default {
   data() {
+    const isNum = (rule, value, callback) => {
+      console.log(value)
+      const money = /^[0-9]*$/
+      if (!money.test(value)) {
+        callback(new Error('账号和卡号只能是数字'))
+      } else {
+        callback()
+      }
+    }
     return {
       infor: {
         cid: '',
         uid: '',
         cpageNum: 1,
         cpageSize: 5,
+      },
+      rules: {
+        cid: [{ validator: isNum, trigger: 'blur' }],
+        uid: [{ validator: isNum, trigger: 'blur' }],
       },
       oporation: {
         saveMoneys: 'savemoneys',
@@ -92,13 +105,21 @@ export default {
     GetMoney,
     ChangePwd,
   },
+  created() {
+    this.getCarList()
+  },
   methods: {
     // 获得用户列表
     async getCarList() {
       const { data: res } = await this.$http.post('cardlist', this.infor)
-      this.cardList = res.data
-      console.log(res)
-      this.total = res.number
+      if (res.number == 0) {
+        return this.$message.error('该银行卡不存在，请检查你的输入是否正确！')
+      } else {
+        this.cardList = res.data
+        // console.log(res)
+        this.total = res.number
+        this.$message.success('获取银行卡列表成功！')
+      }
     },
 
     // 监听pageSize改变的事件
@@ -129,11 +150,6 @@ export default {
     // 打开取款表单
     showgetMoney() {
       this.$refs.getMoney.showgetMoneyDia(this.cid, this.money)
-    },
-
-    // 打开修改密码表单
-    showchangePwd() {
-      this.$refs.getMoney.showchangePwd(this.cid)
     },
   },
 
