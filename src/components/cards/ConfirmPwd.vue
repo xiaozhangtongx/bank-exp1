@@ -70,6 +70,9 @@ export default {
           this.checkPwdDialogVisible = false
           if (this.oporation == 'savemoneys') {
             this.$parent.showsaveMoney()
+          } else if (this.oporation == 'changePassword') {
+            console.log(this.$parent)
+            this.$parent.showchangePwd()
           } else {
             this.$parent.showgetMoney()
           }

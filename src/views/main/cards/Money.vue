@@ -8,7 +8,7 @@
   <a-card>
     <h2>存取款管理</h2>
     <section class="card">
-      <UcardTable v-for="item in list" :key="item.id" style="margin-top:20px" />
+      <UcardTable v-for="item in ucardList.data" :key="item.cid" :cardInfo="item" />
     </section>
   </a-card>
 </template>
@@ -17,26 +17,32 @@
 <script>
 import UcardTable from '@/components/cards/UcardTable'
 export default {
-  name: 'Users',
+  created() {
+    this.getUser()
+  },
+  mounted() {
+    this.getCardData()
+    console.log(this.ucardList)
+  },
   data() {
     return {
-      list: [
-        {
-          id: 1,
-        },
-        {
-          id: 2,
-        },
-        {
-          id: 3,
-        },
-        {
-          id: 4,
-        },
-      ],
+      ucardList: [], // 储户自己的银行卡
+      uid: this.card, //用户账号
     }
   },
-  methods: {},
+  methods: {
+    // 获取当前账户的信息
+    getUser() {
+      this.uid = this.$store.state.user.uid
+      console.log(this.uid)
+    },
+    // 查询该用户银行卡的信息
+    async getCardData() {
+      const { data: res } = await this.$http.get('ucardlist?uid=' + this.uid)
+      this.ucardList = res
+      // console.log(res)
+    },
+  },
   components: {
     UcardTable,
   },
@@ -47,6 +53,7 @@ export default {
 .card {
   display: flex;
   justify-content: space-around;
-  flex-flow: row wrap;
+  align-items: center;
+  flex-wrap: wrap;
 }
 </style>

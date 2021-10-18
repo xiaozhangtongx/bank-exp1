@@ -57,13 +57,13 @@ export default {
     }
   },
   methods: {
-    // 关闭输入密码的框
+    // 关闭存钱的框
     saveMoneyDialogClosed() {
       this.saveMoneyDialogVisible = false
       this.$message.warn('你已经取消了存款操作！！！')
       this.$refs.saveMoneyRef.resetFields() // 重置表单项
     },
-    // 打开输入密码的窗口
+    // 打开存钱的窗口
     showsaveMoneyDia(cid, money) {
       // console.log(money, cid)
       this.savemoney.money = money
@@ -85,7 +85,6 @@ export default {
         //隐藏
         this.saveMoneyDialogVisible = false
         this.$parent.getCarList()
-        // 发起请求
       })
     },
   },

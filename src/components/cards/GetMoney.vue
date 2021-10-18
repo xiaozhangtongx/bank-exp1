@@ -57,13 +57,13 @@ export default {
     }
   },
   methods: {
-    // 关闭输入密码的框
+    // 关闭取款操作的框
     getMoneyDialogClosed() {
       this.getMoneyDialogVisible = false
       this.$message.warn('你已经取消了取款操作！！！')
       this.$refs.getMoneyRef.resetFields() // 重置表单项
     },
-    // 打开输入密码的窗口
+    // 打开取款操作的窗口
     showgetMoneyDia(cid, money) {
       // console.log(money, cid)
       this.getMoney.money = money

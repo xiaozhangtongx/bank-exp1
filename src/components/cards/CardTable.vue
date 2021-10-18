@@ -56,6 +56,8 @@
     <SaveMoney ref="saveMoney" />
     <!-- 取款表单 -->
     <GetMoney ref="getMoney" />
+    <!-- 修改密码表单 -->
+    <ChangePwd ref="changePassword" />
 
   </div>
 </template>
@@ -64,6 +66,7 @@
 import ConfirmPwd from '@/components/cards/ConfirmPwd'
 import SaveMoney from '@/components/cards/SaveMoney'
 import GetMoney from '@/components/cards/GetMoney'
+import ChangePwd from '@/components/cards/ChangePwd'
 export default {
   data() {
     return {
@@ -87,6 +90,7 @@ export default {
     ConfirmPwd,
     SaveMoney,
     GetMoney,
+    ChangePwd,
   },
   methods: {
     // 获得用户列表
@@ -125,6 +129,11 @@ export default {
     // 打开取款表单
     showgetMoney() {
       this.$refs.getMoney.showgetMoneyDia(this.cid, this.money)
+    },
+
+    // 打开修改密码表单
+    showchangePwd() {
+      this.$refs.getMoney.showchangePwd(this.cid)
     },
   },
 

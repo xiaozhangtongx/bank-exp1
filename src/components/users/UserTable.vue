@@ -49,8 +49,7 @@
               </template>
               <a-popconfirm title="你确定修改该用户的信息吗?" ok-text="确定" cancel-text="取消"
                 @confirm="showEditDialog(scope.row.uid)" @cancel="cancel">
-                <a-button type="primary" style="background:#009688; border:none" size="small"
-                  icon="edit">
+                <a-button type="primary" size="small" icon="edit">
                 </a-button>
               </a-popconfirm>
             </a-tooltip>
