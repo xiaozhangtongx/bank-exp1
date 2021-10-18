@@ -1,5 +1,5 @@
 /*
- * @Description:
+ * @Description:路由
  * @Version: 1.0
  * @Author: xiaozhangtx
  * @Date: 2021-10-11 16:24:25
@@ -95,8 +95,14 @@ const routes = [
       // 个人中心
       {
         path: '/main/my',
-        meta: { icon: 'user', title: '个人中心', index: 5 },
+        meta: {
+          icon: 'user',
+          title: '个人中心',
+          index: 5,
+          authority: ['user'],
+        },
         name: 'My',
+
         component: () => import('../views/main/my/My.vue'),
       },
     ],

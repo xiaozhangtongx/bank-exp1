@@ -47,10 +47,17 @@ export default {
       this.form.validateFields(async (err, values) => {
         // console.log(values.userId.length)
         if (!err) {
-          let { data: res } = await this.$http.post('login', values)
-          // console.log(res)
-          if (res.flag == 'ok') {
-            this.$store.dispatch('saveUserInfo', res.data)
+          console.log(values.uid.length)
+          let res = null
+          if (values.uid.length == 6) {
+            res = await this.$http.post('alogin', values)
+          } else {
+            res = await this.$http.post('login', values)
+          }
+          // let { data: res } = await this.$http.post('login', values)
+          console.log(res.data)
+          if (res.data.flag == 'ok') {
+            this.$store.dispatch('saveUserInfo', res.data.data)
             window.sessionStorage.setItem('store', JSON.stringify(this.$store.state))
             this.$router.replace('/main/home') // 页面跳转
             return this.$message.success('登录成功')
