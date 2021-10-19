@@ -7,14 +7,14 @@
 <template>
   <div>
     <!-- 查询区域 -->
-    <a-form-model layout="inline">
+    <a-form-model layout="inline" :rules="rules" :model="infor">
       <a-form-model-item>
         <a-button type="primary" style="background:#0DBC79;border:none" icon="plus"
           @click="showAddUserform">
           添加
         </a-button>
       </a-form-model-item>
-      <a-form-model-item>
+      <a-form-model-item prop="uid">
         <a-input v-model="infor.uid" placeholder="储户账号" />
       </a-form-model-item>
       <a-form-model-item>
@@ -102,6 +102,15 @@
 import AddUserForm from '@/components/users/AddUserForm'
 export default {
   data() {
+    const isNum = (rule, value, callback) => {
+      console.log(value)
+      const money = /^[0-9]*$/
+      if (!money.test(value)) {
+        callback(new Error('账号只能是数字'))
+      } else {
+        callback()
+      }
+    }
     return {
       infor: {
         uid: '',
@@ -109,6 +118,9 @@ export default {
         uidnum: '',
         pageNum: 1,
         pageSize: 5,
+      },
+      rules: {
+        uid: [{ validator: isNum, trigger: 'blur' }],
       },
       userList: [],
       total: 0,
@@ -220,9 +232,9 @@ export default {
     async deleteUser(uid) {
       const { data: res } = await this.$http.delete('deleteuser?uid=' + uid)
       if (res != 'success') {
-        return this.$message.error('操作失败！！！')
+        return this.$message.error('用户删除失败！！！')
       }
-      this.$message.success('操作成功！！！')
+      this.$message.success('用户删除成功！！！')
       this.getUserList()
     },
 

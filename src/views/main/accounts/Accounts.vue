@@ -6,7 +6,13 @@
 -->
 <template>
   <div>
-    <h1>账号管理</h1>
+    <a-card>
+      <h2>功能正在开发，敬请期待！！！</h2>
+      <section>
+        <img src="../../../assets/images/later.png" alt="">
+      </section>
+    </a-card>
+
   </div>
 </template>
 
@@ -21,4 +27,21 @@ export default {
 </script>
 
 <style scoped lang='less'>
+div {
+  width: 100%;
+  height: 100%;
+  background-color: #fafafa;
+  h1 {
+    font-size: 21px;
+  }
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      height: 62vh;
+      object-fit: cover;
+    }
+  }
+}
 </style>

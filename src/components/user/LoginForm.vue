@@ -54,7 +54,7 @@ export default {
           } else {
             res = await this.$http.post('login', values)
           }
-          // let { data: res } = await this.$http.post('login', values)
+          console.log(res)
           console.log(res.data)
           if (res.data.flag == 'ok') {
             this.$store.dispatch('saveUserInfo', res.data.data)

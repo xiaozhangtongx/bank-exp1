@@ -40,7 +40,7 @@
       <!-- 内容底部区域 -->
       <span slot="footer" class="dialog-footer">
         <a-button @click="addDialogVisible = false">取 消</a-button>
-        <a-button style="margin-left:20px" type="primary" @click="addUser">确 定</a-button>
+        <a-button style="margin-left:20px" type="primary" @click="checkAddUser">确 定</a-button>
       </span>
     </el-dialog>
   </div>
@@ -109,23 +109,39 @@ export default {
     addDialogClosed() {
       this.$refs.addFormRef.resetFields() // 重置表单项
     },
-    // 添加用户
-    addUser() {
+    // 判断添加用户的条件
+    checkAddUser() {
       this.$refs.addFormRef.validate(async (valid) => {
         console.log(this.addForm)
         if (!valid) return
-        // 发起请求
-        const { data: res } = await this.$http.post('adduser', this.addForm)
-        console.log(res)
-        if (res == 'success') {
-          this.$message.success('添加用户成功！！！')
-          // 隐藏
-          this.addDialogVisible = false
-          this.$parent.getUserList()
+        const { data: flag1 } = await this.$http.post('getuserbyuidnum', this.addForm)
+        const { data: flag2 } = await this.$http.post('getuserbyph', this.addForm)
+        console.log(flag1)
+        if (flag1 == 'error' && flag2 == 'success') {
+          return this.$message.error('添加用户失败，该身份证已被其他用户绑定！！！')
+        } else if (flag2 == 'error' && flag1 == 'success') {
+          return this.$message.error('添加用户失败，该手机号已被其他用户绑定！！！')
+        } else if (flag1 == 'error' && flag2 == 'error') {
+          return this.$message.error('添加用户失败，该手机号和身份证已被其他用户绑定！！！')
         } else {
-          return this.$message.error('添加用户失败！！！')
+          // 发起请求
+          this.addUser()
         }
       })
+    },
+    // 添加用户
+    async addUser() {
+      // 发起请求
+      const { data: res } = await this.$http.post('adduser', this.addForm)
+      console.log(res)
+      if (res == 'success') {
+        this.$message.success('添加用户成功！！！')
+        // 隐藏
+        this.addDialogVisible = false
+        this.$parent.getUserList()
+      } else {
+        return this.$message.error('添加用户失败！！！')
+      }
     },
     showModal() {
       this.addDialogVisible = true
