@@ -5,7 +5,7 @@
  * @Date: 2021-10-13 23:14:06
 -->
 <template>
-  <a-card>
+  <a-card class="cards">
     <h2>存取款管理</h2>
     <section class="card">
       <UcardTable v-for="item in ucardList.data" :key="item.cid" :cardInfo="item" />
@@ -50,6 +50,9 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.cards {
+  height: 76vh;
+}
 .card {
   display: flex;
   justify-content: space-around;

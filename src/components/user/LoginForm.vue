@@ -54,13 +54,15 @@ export default {
           } else {
             res = await this.$http.post('login', values)
           }
-          console.log(res)
+          // console.log(res)
           console.log(res.data)
           if (res.data.flag == 'ok') {
             this.$store.dispatch('saveUserInfo', res.data.data)
             window.sessionStorage.setItem('store', JSON.stringify(this.$store.state))
             this.$router.replace('/main/home') // 页面跳转
-            return this.$message.success('登录成功')
+            return this.$message.success(
+              '登录成功，welcom ' + `${res.data.data.username}` + 'to our system!'
+            )
           } else {
             return this.$message.error('登录失败，请检查你输入的账号或密码是否正确！')
           }

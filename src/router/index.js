@@ -42,7 +42,7 @@ const routes = [
         path: '/main/home',
         meta: { icon: 'home', title: '系统首页', index: 1 },
         name: 'Home',
-        component: () => import('../views/main/Home.vue'),
+        component: () => import('../views/main/Home/Home.vue'),
       },
       // 用户管理页面
       {

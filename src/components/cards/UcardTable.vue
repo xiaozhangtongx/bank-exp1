@@ -113,9 +113,6 @@ export default {
 </script>
 
 <style scoped lang='less'>
-.cardinfo {
-  height: 60vh;
-}
 .ant-card,
 img {
   border-radius: 10px;

@@ -15,7 +15,7 @@
         <a-input v-model="infor.cid" placeholder="银行卡号" />
       </a-form-model-item>
       <a-form-model-item>
-        <a-button v-model="infor.uid" type="primary" icon="search" @click="getCarList">
+        <a-button type="primary" icon="search" @click="getCarList">
           查询
         </a-button>
       </a-form-model-item>
@@ -112,6 +112,7 @@ export default {
     // 获得用户列表
     async getCarList() {
       const { data: res } = await this.$http.post('cardlist', this.infor)
+      console.log(res)
       if (res.number == 0) {
         return this.$message.error('该银行卡不存在，请检查你的输入是否正确！')
       } else {
@@ -139,6 +140,7 @@ export default {
     showConfirmPwd(cid, cpassword, money, oporation) {
       this.money = money
       this.cid = cid
+      // console.log(this)
       this.$refs.confirPwd.showConfirmPwdDia(cpassword, oporation)
     },
 

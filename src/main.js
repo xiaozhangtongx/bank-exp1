@@ -10,6 +10,7 @@ import router from './router'
 import store from './store'
 import Antd from 'ant-design-vue'
 import axios from 'axios'
+import * as echarts from 'echarts'
 import 'ant-design-vue/dist/antd.css'
 import './assets/less/global.less'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -44,6 +45,7 @@ Vue.use(Antd)
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:9002'
 Vue.prototype.$http = axios // $http这个是自定义的
+// Vue.prototype.$echarts = echarts // 引入echarts
 
 new Vue({
   router,
