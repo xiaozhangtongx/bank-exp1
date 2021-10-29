@@ -1,4 +1,4 @@
-# bank
+# 这是前端页面部分,采用的技术栈为vue
 
 ## Project setup
 ```
