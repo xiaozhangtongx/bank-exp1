@@ -1,5 +1,5 @@
 # 这是前端页面部分,采用的技术栈为vue
-## 后端代码链接https://github.com/xiaozhangtongx/bank-exp1-spring，采用的是springboot
+## 后端代码链接https://github.com/xiaozhangtongx/bank-exp1-spring
 
 ## Project setup
 ```
